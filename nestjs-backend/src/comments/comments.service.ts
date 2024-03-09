@@ -9,19 +9,26 @@ import { Comment } from './schemas/comment.schema';
 export class CommentsService {
   constructor(@InjectModel(Comment.name) private commentModel: Model<Comment>) {}
 
-  create(createCommentDto: CreateCommentDto) {
+  async create(createCommentDto: CreateCommentDto) {
     const newComment = this.commentModel.create({
       content: createCommentDto.content,
       parent: createCommentDto.parentId || null,
       user: createCommentDto.userId,
     });
-    return newComment.then((doc) => {
-      return doc.populate(['user', 'parent']);
-    });
+    const doc = await newComment;
+    return await doc.populate(['user', 'parent']);
   }
 
   findAll() {
     return this.commentModel.find().populate(['user', 'parent']).exec();
+  }
+
+  getTopLevelComments() {
+    return this.commentModel.find({ parent: null }).populate(['user']).exec();
+  }
+
+  getCommentByParentId(parentId: string) {
+    return this.commentModel.find({ parent: parentId }).populate(['user']).exec();
   }
 
   findOne(id: number) {
