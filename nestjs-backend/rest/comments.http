@@ -1,0 +1,13 @@
+### Get all
+GET http://localhost:3000/comments HTTP/1.1
+
+
+### Create
+POST http://localhost:3000/comments HTTP/1.1
+content-type: application/json
+
+{
+  "content": "ayyyyyyyy",
+  "userId": "65ec402cd095b437ca5c1209",
+  "parentId": "65ec4c093acbdeb82fbaab72"
+}
