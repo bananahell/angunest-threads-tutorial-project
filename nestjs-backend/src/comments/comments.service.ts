@@ -24,7 +24,11 @@ export class CommentsService {
   }
 
   getTopLevelComments() {
-    return this.commentModel.find({ parent: null }).populate(['user']).exec();
+    return this.commentModel
+      .find({ parent: null })
+      .populate(['user'])
+      .sort({ createdAt: -1 })
+      .exec();
   }
 
   getCommentByParentId(parentId: string) {
