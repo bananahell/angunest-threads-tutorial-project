@@ -16,4 +16,17 @@ export class CommentService {
     }
     return this.http.get<Comment[]>(url);
   }
+
+  createComment(comment: CreateCommentDto) {
+    return this.http.post<Comment>(
+      `${environment.apiBaseUrl}/comments`,
+      comment
+    );
+  }
 }
+
+type CreateCommentDto = {
+  parentId?: string;
+  content: string;
+  userId: string;
+};
